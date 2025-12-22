@@ -3,11 +3,12 @@
 // App.jsx
 import "./app.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Body from "./Body";           // make sure file name & path casing match
-import Profile from "./Profile";
-import Login from "./Login";
+import Body from "./components/Body";           // make sure file name & path casing match
+import Profile from "./components/Profile";
+import Login from "./components/Login";
 import { Provider } from "react-redux";
-import appStore from "./utils/appStore";   // match exact file name
+import appStore from "./utils/appStore"; 
+import Feed from "./components/Feed";  // match exact file name
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <BrowserRouter basename="/">
         <Routes>
           <Route path="/" element={<Body />}>
+            <Route path="/" element={<Feed />} />
             <Route path="login" element={<Login />} />
             <Route path="profile" element={<Profile />} />
           </Route>
