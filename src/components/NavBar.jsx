@@ -1,21 +1,37 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { removeUser } from "../utils/userSlice"; // adjust path if needed
+
+const BASE_URL = "http://localhost:3000";
+
 const NavBar = () => {
   const user = useSelector((store) => store.user);
-  console.log(user);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    try {
+      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
+      dispatch(removeUser());       // clear Redux
+      return navigate("/login");           // redirect so Body stops calling /profile/view
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div className="navbar bg-base-300 shadow-sm">
       <div className="flex-1">
-        <Link to="/" className="btn btn-ghost text-xl">TheDevSpace</Link>
+        <Link to="/" className="btn btn-ghost text-xl">
+          TheDevSpace
+        </Link>
       </div>
 
       {user && (
         <div className="flex-none gap-2">
-          <div className="form-control">
-            Welcome, {user.firstName}
-          </div>
+          <div className="form-control">Welcome, {user.firstName}</div>
 
           <div className="dropdown dropdown-end mx-5 flex">
             <div
@@ -42,7 +58,9 @@ const NavBar = () => {
                 <a>Settings</a>
               </li>
               <li>
-                <a>Logout</a>
+                <button type="button" onClick={handleLogout}>
+                  Logout
+                </button>
               </li>
             </ul>
           </div>
@@ -53,6 +71,3 @@ const NavBar = () => {
 };
 
 export default NavBar;
-
-
-
