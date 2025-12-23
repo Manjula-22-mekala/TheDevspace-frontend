@@ -2,15 +2,15 @@ import { useState } from "react";
 import UserCard from "./userCard";
 import axios from "axios";
 import { BASE_URL } from "../utils/constants";
-import {shallowEqual, useDispatch} from "react-redux";
+import {useDispatch} from "react-redux";
 import { addUser } from "../utils/userSlice";
 const EditProfile = ({ user }) => {
   const [firstName, setFirstName] = useState(user.firstName);
   const [lastName, setLastName] = useState(user.lastName);
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
-  const [age,setAge] = useState(user.age);
-  const [gender,setGender] = useState(user.gender);
-  const [about,setAbout] = useState(user.about);
+  const [age,setAge] = useState(user.age|| "");
+  const [gender,setGender] = useState(user.gender||"");
+  const [about,setAbout] = useState(user.about||"");
   const [error, setError] = useState("");
 const dispatch = useDispatch();
 const [showToast,setShowToast]=useState(false)
@@ -37,9 +37,12 @@ const [showToast,setShowToast]=useState(false)
     setTimeout(()=>{
         setShowToast(false);
     },3000)
-  } catch (err) {
-    setError(err.response.message);
-  }
+  }  
+  catch (err) {
+  setError(err?.response?.data || err?.message || "Something went wrong");
+}
+
+
 };
 
   return (
