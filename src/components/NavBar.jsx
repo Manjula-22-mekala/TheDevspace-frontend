@@ -29,7 +29,7 @@ const NavBar = () => {
         </Link>
       </div>
 
-      {user && (
+      {/* {user && (
         <div className="flex-none gap-2">
           <div className="form-control">Welcome, {user.firstName}</div>
 
@@ -68,7 +68,54 @@ const NavBar = () => {
             </ul>
           </div>
         </div>
-      )}
+      )} */}
+      {user && (
+  <div className="flex items-center gap-3 mr-6">
+    
+    {/* Welcome text */}
+    <span className="text-sm opacity-80">
+      Welcome, <span className="font-semibold">{user.firstName}</span>
+    </span>
+
+    {/* Avatar dropdown */}
+    <div className="dropdown dropdown-end">
+      <div
+        tabIndex={0}
+        role="button"
+        className="btn btn-ghost btn-circle avatar"
+      >
+        <div className="w-10 rounded-full">
+          <img alt="user photo" src={user.photoUrl} />
+        </div>
+      </div>
+
+      <ul
+        tabIndex={0}
+        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+      >
+        <li>
+          <Link to="/profile" className="justify-between">
+            Profile
+            <span className="badge">New</span>
+          </Link>
+        </li>
+        <li>
+          <Link to="/connections">Connections</Link>
+        </li>
+        <li>
+          <Link to="/requests">Requests</Link>
+        </li>
+        <li>
+          <button type="button" onClick={handleLogout}>
+            Logout
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 };

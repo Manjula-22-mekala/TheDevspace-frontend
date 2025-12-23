@@ -21,13 +21,14 @@ const UserCard = ({ user }) => {
     <div className="card bg-base-300 w-96 shadow-xl">
 
       {/* IMAGE SECTION (FIXED HEIGHT) */}
-      <figure className="h-64 overflow-hidden">
-        <img
-          src={photoUrl}
-          alt="photo"
-          className="w-full h-full object-cover"
-        />
-      </figure>
+      <figure className="h-72 overflow-hidden rounded-t-xl">
+  <img
+    src={photoUrl}
+    alt="photo"
+    className="w-full h-full object-contain transition"
+
+  />
+</figure>
 
       {/* CONTENT SECTION */}
       <div className="card-body text-left gap-2">
