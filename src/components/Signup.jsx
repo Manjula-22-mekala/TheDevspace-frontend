@@ -1,29 +1,30 @@
 import { useState } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
-import { addUser } from "../utils/userSlice";
 import { useNavigate, Link } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
 
-const Login = () => {
-  const [emailId, setEmailId] = useState("");
-  const [password, setPassword] = useState("");
+const Signup = () => {
+  const navigate = useNavigate();
   const [error, setError] = useState("");
 
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const [form, setForm] = useState({
+    firstName: "",
+    lastName: "",
+    emailId: "",
+    password: "",
+  });
 
-  const login = async () => {
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+  const signup = async () => {
     try {
-      const res = await axios.post(
-        `${BASE_URL}/login`,
-        { emailId, password },
-        { withCredentials: true }
-      );
-      dispatch(addUser(res.data));
-      navigate("/app");
-    } catch {
-      setError("Invalid credentials");
+      await axios.post(`${BASE_URL}/signup`, form, {
+        withCredentials: true,
+      });
+      navigate("/");
+    } catch (err) {
+      setError(err.response?.data || "Signup failed");
     }
   };
 
@@ -39,32 +40,48 @@ const Login = () => {
       <div className="absolute inset-y-0 left-0 w-1/2 bg-black/80 animate-curtain-left z-20"></div>
       <div className="absolute inset-y-0 right-0 w-1/2 bg-black/80 animate-curtain-right z-20"></div>
 
-      {/* LOGIN CARD */}
-      <div className="relative z-30 w-[380px] p-8 rounded-2xl
+      {/* SIGNUP CARD */}
+      <div className="relative z-30 w-[420px] p-8 rounded-2xl
         bg-white/10 backdrop-blur-xl
         border border-white/20 shadow-2xl
         animate-login">
 
         <h1 className="text-2xl font-semibold text-white text-center">
-          LOGIN
+          Join TheDevSpace
         </h1>
 
         <p className="text-sm text-gray-300 text-center mb-6">
-          provide your details
+          Create your developer profile
         </p>
 
+        <div className="flex gap-3 mb-4">
+          <input
+            name="firstName"
+            placeholder="First Name"
+            className="input input-bordered w-1/2 bg-white/10 text-white border-white/30"
+            onChange={handleChange}
+          />
+          <input
+            name="lastName"
+            placeholder="Last Name"
+            className="input input-bordered w-1/2 bg-white/10 text-white border-white/30"
+            onChange={handleChange}
+          />
+        </div>
+
         <input
-          type="email"
+          name="emailId"
           placeholder="Email"
           className="input input-bordered w-full mb-4 bg-white/10 text-white border-white/30"
-          onChange={(e) => setEmailId(e.target.value)}
+          onChange={handleChange}
         />
 
         <input
+          name="password"
           type="password"
-          placeholder="Password"
+          placeholder="Strong Password"
           className="input input-bordered w-full mb-3 bg-white/10 text-white border-white/30"
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={handleChange}
         />
 
         {error && (
@@ -72,28 +89,24 @@ const Login = () => {
         )}
 
         <button
-          onClick={login}
+          onClick={signup}
           className="w-full py-2 rounded-lg font-medium text-white
             bg-gradient-to-r from-indigo-500 to-violet-500
             hover:from-indigo-400 hover:to-violet-400
             active:scale-95 transition-all"
         >
-          Login
+          Create Account
         </button>
 
         <p className="text-sm text-center text-gray-300 mt-5">
-          New here?{" "}
-          <Link to="/signup" className="text-indigo-400 hover:underline">
-            Create account
+          Already have an account?{" "}
+          <Link to="/login" className="text-indigo-400 hover:underline">
+            Login
           </Link>
-        </p>
-
-        <p className="text-xs text-center text-gray-400 mt-4">
-          © 2026 TheDevSpace
         </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default Signup;

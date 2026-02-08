@@ -1,14 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const connectionSlice = createSlice({
-  name: "connection",
-  initialState: null,
+  name: "connections",
+  initialState: [], // ✅ MUST be array
   reducers: {
     addConnections: (state, action) => action.payload,
-    removeConnections: () => null,
+    clearConnections: () => [],
   },
 });
 
-export const { addConnections, removeConnections } = connectionSlice.actions;
-
+export const { addConnections, clearConnections } = connectionSlice.actions;
 export default connectionSlice.reducer;

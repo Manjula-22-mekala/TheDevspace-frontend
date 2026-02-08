@@ -1,123 +1,29 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { removeUser } from "../utils/userSlice"; // adjust path if needed
-
-const BASE_URL = "http://localhost:3000";
-
-const NavBar = () => {
-  const user = useSelector((store) => store.user);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const handleLogout = async () => {
-    try {
-      await axios.post(BASE_URL + "/logout", {}, { withCredentials: true });
-      dispatch(removeUser());       // clear Redux
-      return navigate("/login");           // redirect so Body stops calling /profile/view
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
+const Navbar = () => {
   return (
-    <div className="navbar bg-base-300 shadow-sm">
-      <div className="flex-1">
-        <Link to="/" className="btn btn-ghost text-xl">
-          TheDevSpace
-        </Link>
-      </div>
+    <header className="h-20 bg-[#0b0f1a] border-b border-gray-800">
+      <div className="flex items-center h-full">
 
-      {/* {user && (
-        <div className="flex-none gap-2">
-          <div className="form-control">Welcome, {user.firstName}</div>
+        {/* LEFT SPACE = SIDEBAR WIDTH */}
+        <div className="w-64"></div>
 
-          <div className="dropdown dropdown-end mx-5 flex">
-            <div
-              tabIndex={0}
-              role="button"
-              className="btn btn-ghost btn-circle avatar"
-            >
-              <div className="w-10 rounded-full">
-                <img alt="user photo" src={user.photoUrl} />
-              </div>
-            </div>
-
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-            >
-              <li>
-                <Link to="/profile" className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </Link>
-              </li>
-              <li>
-                <Link to="/connections">Connections</Link>
-              </li>
-              <li>
-                <Link to="/requests">Requests</Link>
-              </li>
-              <li>
-                <button type="button" onClick={handleLogout}>
-                  Logout
-                </button>
-              </li>
-            </ul>
-          </div>
+        {/* CENTER CONTENT (same width as main area) */}
+        <div className="flex-1 flex justify-center">
+          <h1
+            className="
+              text-2xl md:text-3xl
+              font-semibold tracking-wide
+              bg-gradient-to-r from-indigo-400 to-purple-400
+              bg-clip-text text-transparent
+              whitespace-nowrap
+            "
+          >
+            Welcome To The Developer Networking Platform
+          </h1>
         </div>
-      )} */}
-      {user && (
-  <div className="flex items-center gap-3 mr-6">
-    
-    {/* Welcome text */}
-    <span className="text-sm opacity-80">
-      Welcome, <span className="font-semibold">{user.firstName}</span>
-    </span>
 
-    {/* Avatar dropdown */}
-    <div className="dropdown dropdown-end">
-      <div
-        tabIndex={0}
-        role="button"
-        className="btn btn-ghost btn-circle avatar"
-      >
-        <div className="w-10 rounded-full">
-          <img alt="user photo" src={user.photoUrl} />
-        </div>
       </div>
-
-      <ul
-        tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-      >
-        <li>
-          <Link to="/profile" className="justify-between">
-            Profile
-            <span className="badge">New</span>
-          </Link>
-        </li>
-        <li>
-          <Link to="/connections">Connections</Link>
-        </li>
-        <li>
-          <Link to="/requests">Requests</Link>
-        </li>
-        <li>
-          <button type="button" onClick={handleLogout}>
-            Logout
-          </button>
-        </li>
-      </ul>
-    </div>
-  </div>
-)}
-
-
-    </div>
+    </header>
   );
 };
 
-export default NavBar;
+export default Navbar;
